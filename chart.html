@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morse Code Chart - Morse Hero</title>
+    <meta name="description"
+        content="Complete Morse code chart with letters, numbers, and special characters. A reference guide from Morse Hero.">
+    <meta name="keywords" content="morse code, morse code chart, morse code reference, morse hero">
+    <meta name="robots" content="index, follow">
+    <meta name="canonical" href="https://morsehero.com/chart">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/ico/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/ico/icon-192.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/ico/icon-192.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#2c3e50">
+
+    <style>
+        body {
+            font-family: 'Fredoka One', 'Baloo', 'Arial Rounded MT Bold', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #2c3e50 0%, #1a2530 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #f39c12;
+            text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3),
+                0 0 15px rgba(243, 156, 18, 0.5);
+        }
+
+        h2 {
+            font-size: 32px;
+            margin: 30px 0 15px;
+            color: #3498db;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2),
+                0 0 10px rgba(52, 152, 219, 0.4);
+        }
+
+        .chart-section {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .morse-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 0 auto;
+        }
+
+        .morse-item {
+            background-color: rgba(52, 152, 219, 0.2);
+            border-radius: 10px;
+            padding: 15px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .morse-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            background-color: rgba(52, 152, 219, 0.3);
+        }
+
+        .character {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .morse {
+            font-family: monospace;
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+
+        .back-link {
+            margin-top: 30px;
+            font-size: 18px;
+        }
+
+        .back-link a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .back-link a:hover {
+            color: #f39c12;
+            text-decoration: underline;
+        }
+
+        .title-link {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .title-link:hover {
+            color: #3498db;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding: 15px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            width: 100%;
+        }
+
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: #4aa3df;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1><a href="/" class="title-link">Morse Hero</a></h1>
+        <h2>Morse Code Chart</h2>
+
+        <div class="chart-section">
+            <h2>Letters</h2>
+            <div class="morse-grid">
+                <div class="morse-item">
+                    <div class="character">A</div>
+                    <div class="morse">·−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">B</div>
+                    <div class="morse">−···</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">C</div>
+                    <div class="morse">−·−·</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">D</div>
+                    <div class="morse">−··</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">E</div>
+                    <div class="morse">·</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">F</div>
+                    <div class="morse">··−·</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">G</div>
+                    <div class="morse">−−·</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">H</div>
+                    <div class="morse">····</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">I</div>
+                    <div class="morse">··</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">J</div>
+                    <div class="morse">·−−−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">K</div>
+                    <div class="morse">−·−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">L</div>
+                    <div class="morse">·−··</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">M</div>
+                    <div class="morse">−−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">N</div>
+                    <div class="morse">−·</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">O</div>
+                    <div class="morse">−−−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">P</div>
+                    <div class="morse">·−−·</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">Q</div>
+                    <div class="morse">−−·−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">R</div>
+                    <div class="morse">·−·</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">S</div>
+                    <div class="morse">···</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">T</div>
+                    <div class="morse">−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">U</div>
+                    <div class="morse">··−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">V</div>
+                    <div class="morse">···−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">W</div>
+                    <div class="morse">·−−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">X</div>
+                    <div class="morse">−··−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">Y</div>
+                    <div class="morse">−·−−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">Z</div>
+                    <div class="morse">−−··</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2>Numbers</h2>
+            <div class="morse-grid">
+                <div class="morse-item">
+                    <div class="character">1</div>
+                    <div class="morse">·−−−−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">2</div>
+                    <div class="morse">··−−−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">3</div>
+                    <div class="morse">···−−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">4</div>
+                    <div class="morse">····−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">5</div>
+                    <div class="morse">·····</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">6</div>
+                    <div class="morse">−····</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">7</div>
+                    <div class="morse">−−···</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">8</div>
+                    <div class="morse">−−−··</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">9</div>
+                    <div class="morse">−−−−·</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">0</div>
+                    <div class="morse">−−−−−</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2>Special Characters</h2>
+            <div class="morse-grid">
+                <div class="morse-item">
+                    <div class="character">=</div>
+                    <div class="morse">−···−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">.</div>
+                    <div class="morse">·−·−·−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">,</div>
+                    <div class="morse">−−··−−</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">/</div>
+                    <div class="morse">−··−·</div>
+                </div>
+                <div class="morse-item">
+                    <div class="character">?</div>
+                    <div class="morse">··−−··</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="back-link">
+            <a href="/">← Back to Morse Hero Game</a>
+        </div>
+
+        <footer class="footer">
+            <p>Created with <a href="https://www.mastercw.com/cw.js/">CW.js</a>. For a complete and professional
+                Morse Code training solution visit <a href="https://www.mastercw.com">Master CW</a>.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -379,6 +379,22 @@
             vertical-align: middle;
             cursor: pointer;
         }
+
+        .chart-link {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .chart-link a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .chart-link a:hover {
+            color: #f39c12;
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -389,6 +405,9 @@
         <div id="startScreen">
             <p>Learn Morse code the fun way! Listen to the sound and pick the correct character.</p>
             <button id="startButton" class="start-button">Start Game</button>
+            <div class="chart-link">
+                <a href="/chart.html">View Morse Code Chart</a>
+            </div>
         </div>
 
         <div id="gameArea">
