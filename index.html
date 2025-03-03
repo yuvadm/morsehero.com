@@ -96,7 +96,6 @@
     <div id="gameArea">
         <div class="game-container">
             <div>Score: <span id="score">0</span> / <span id="total">0</span></div>
-            <button id="playButton" class="play-button">Play Morse Code</button>
 
             <div class="options">
                 <button class="option-button" id="option1"></button>
@@ -112,8 +111,8 @@
             <label for="wpmSelect">Speed:</label>
             <select id="wpmSelect">
                 <option value="10">10 WPM</option>
-                <option value="15" selected>15 WPM</option>
-                <option value="20">20 WPM</option>
+                <option value="15">15 WPM</option>
+                <option value="20" selected>20 WPM</option>
             </select>
         </div>
     </div>
@@ -165,14 +164,10 @@
                 document.getElementById('option3'),
                 document.getElementById('option4')
             ];
-            const playButton = document.getElementById('playButton');
             const feedbackElement = document.getElementById('feedback');
             const scoreElement = document.getElementById('score');
             const totalElement = document.getElementById('total');
             const wpmSelect = document.getElementById('wpmSelect');
-
-            // Add event listeners
-            playButton.addEventListener('click', playMorse);
 
             optionButtons.forEach(button => {
                 button.addEventListener('click', function () {
@@ -215,6 +210,9 @@
                 for (let i = 0; i < 4; i++) {
                     optionButtons[i].textContent = options[i];
                 }
+
+                // immediately play sound
+                playMorse();
             }
 
             // Play the morse code
