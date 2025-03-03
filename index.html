@@ -195,6 +195,68 @@
             }
         }
 
+        .score-container {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .score-widget {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .score-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-right: 15px;
+            min-width: 100px;
+        }
+
+        .score-label {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .score-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .score-tracker {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            max-width: 100%;
+            margin-top: 5px;
+        }
+
+        .score-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .score-dot.correct {
+            background-color: #2ecc71;
+            box-shadow: 0 0 5px rgba(46, 204, 113, 0.7);
+        }
+
+        .score-dot.incorrect {
+            background-color: #e74c3c;
+            box-shadow: 0 0 5px rgba(231, 76, 60, 0.7);
+        }
+
         .feedback {
             height: 40px;
             margin-top: 30px;
@@ -202,6 +264,39 @@
             font-size: 28px;
             color: #f39c12;
             text-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding: 15px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            width: 100%;
+        }
+
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: #4aa3df;
+            text-decoration: underline;
+        }
+
+        .title-link {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .title-link:hover {
+            color: #3498db;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
         }
 
         .score {
@@ -277,39 +372,6 @@
             vertical-align: middle;
             cursor: pointer;
         }
-
-        .footer {
-            margin-top: 30px;
-            padding: 15px;
-            text-align: center;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-            width: 100%;
-        }
-
-        .footer a {
-            color: #3498db;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .footer a:hover {
-            color: #4aa3df;
-            text-decoration: underline;
-        }
-
-        .title-link {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .title-link:hover {
-            color: #3498db;
-            text-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
-        }
     </style>
 </head>
 
@@ -323,9 +385,19 @@
         </div>
 
         <div id="gameArea">
-            <div class="game-container">
-                <div class="score">Score: <span id="score">0</span> / <span id="total">0</span></div>
+            <div class="score-container">
+                <div class="score-widget">
+                    <div class="score-info">
+                        <div class="score-label">Score:</div>
+                        <div class="score-value">
+                            <span id="score">0</span> / <span id="total">0</span>
+                        </div>
+                    </div>
+                    <div class="score-tracker" id="scoreTracker"></div>
+                </div>
+            </div>
 
+            <div class="game-container">
                 <div class="options">
                     <button class="option-button" id="option1"></button>
                     <button class="option-button" id="option2"></button>
@@ -561,14 +633,20 @@
                 const charSpan = selectedButton.querySelector('.char-display');
                 const selectedChar = charSpan ? charSpan.textContent : '';
 
+                // Create a new score dot
+                const scoreDot = document.createElement('div');
+                scoreDot.className = 'score-dot';
+
                 if (selectedChar === currentChar) {
                     // Correct answer
                     score++;
                     scoreElement.textContent = score;
                     selectedButton.classList.add('correct');
+                    scoreDot.classList.add('correct');
                 } else {
                     // Wrong answer - mark selected button as incorrect
                     selectedButton.classList.add('incorrect');
+                    scoreDot.classList.add('incorrect');
 
                     // Find and highlight the correct button
                     optionButtons.forEach(button => {
@@ -577,6 +655,15 @@
                             button.classList.add('correct');
                         }
                     });
+                }
+
+                // Add the score dot to the tracker
+                const scoreTracker = document.getElementById('scoreTracker');
+                scoreTracker.appendChild(scoreDot);
+
+                // Limit the number of dots shown (keep last 20)
+                if (scoreTracker.children.length > 20) {
+                    scoreTracker.removeChild(scoreTracker.children[0]);
                 }
 
                 // Start a new round after a delay
