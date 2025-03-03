@@ -274,6 +274,59 @@
             text-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
         }
 
+        .social-share {
+            margin: 40px auto 20px;
+            text-align: center;
+            padding: 15px;
+            background-color: #34495e;
+            border-radius: 15px;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-share-text {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #f39c12;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .twitter-button {
+            background-color: #1DA1F2;
+        }
+
+        .facebook-button {
+            background-color: #4267B2;
+        }
+
+        .social-button i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
         .footer {
             margin-top: 30px;
             text-align: center;
@@ -448,6 +501,21 @@
                     <input type="checkbox" id="hintMode" name="hintMode">
                     <label for="hintMode">Show Hints</label>
                 </div>
+            </div>
+        </div>
+
+        <div class="social-share">
+            <div class="social-share-text">I just decoded the secret language of dots and dashes! Can you master Morse
+                code too?</div>
+            <div class="social-buttons">
+                <a href="https://twitter.com/intent/tweet?text=I%20just%20decoded%20the%20secret%20language%20of%20dots%20and%20dashes!%20Can%20you%20master%20Morse%20code%20too%3F%20Learn%20the%20fun%20way%20at%20https%3A%2F%2Fmorsehero.com%20%23MorseCode%20%23MorseHero"
+                    target="_blank" class="social-button twitter-button">
+                    <i>𝕏</i> Share
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmorsehero.com&quote=I%20just%20decoded%20the%20secret%20language%20of%20dots%20and%20dashes!%20Can%20you%20master%20Morse%20code%20too%3F%20Learn%20the%20fun%20way%20at%20https%3A%2F%2Fmorsehero.com%20%23MorseCode%20%23MorseHero"
+                    target="_blank" class="social-button facebook-button">
+                    <i>f</i> Share
+                </a>
             </div>
         </div>
 
