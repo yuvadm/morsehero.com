@@ -100,6 +100,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
 
         .option-button:hover {
@@ -140,6 +141,21 @@
             color: rgba(255, 255, 255, 0.8);
             font-family: monospace;
             letter-spacing: 2px;
+        }
+
+        .key-label {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            font-family: monospace;
+        }
+
+        .key-pressed {
+            transform: translateY(3px) !important;
+            box-shadow: 0 5px 0 #2980b9 !important;
+            transition: transform 0.05s, box-shadow 0.05s;
         }
 
         @keyframes pulse-green {
@@ -274,11 +290,22 @@
             color: #4aa3df;
             text-decoration: underline;
         }
+
+        .title-link {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .title-link:hover {
+            color: #3498db;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
+        }
     </style>
 </head>
 
 <body>
-    <h1>Morse Hero</h1>
+    <h1><a href="/" class="title-link">Morse Hero</a></h1>
 
     <div id="startScreen">
         <p>Learn Morse code the fun way! Listen to the sound and pick the correct character.</p>
@@ -374,16 +401,40 @@
             const wpmSelect = document.getElementById('wpmSelect');
             const hintModeCheckbox = document.getElementById('hintMode');
 
-            optionButtons.forEach(button => {
+            optionButtons.forEach((button, index) => {
                 button.addEventListener('click', function () {
                     checkAnswer(button);
                 });
+                // Remove number labels - we'll add character labels dynamically in newRound
+                const existingLabel = button.querySelector('.key-label');
+                if (existingLabel) {
+                    button.removeChild(existingLabel);
+                }
             });
 
-            // Add event listener for hint mode checkbox
-            hintModeCheckbox.addEventListener('change', function () {
-                updateButtonsWithHints();
+            // Add keyboard listener for character keys
+            document.addEventListener('keydown', (event) => {
+                // Only process if we're in the game area (not on start screen)
+                if (gameArea.style.display === 'block') {
+                    const key = event.key.toUpperCase();
+
+                    // Find if any button has this character
+                    for (let i = 0; i < optionButtons.length; i++) {
+                        const charSpan = optionButtons[i].querySelector('.char-display');
+                        if (charSpan && charSpan.textContent === key && !optionButtons[i].disabled) {
+                            // Simulate button press with visual feedback
+                            optionButtons[i].classList.add('key-pressed');
+                            setTimeout(() => {
+                                optionButtons[i].classList.remove('key-pressed');
+                                checkAnswer(optionButtons[i]);
+                            }, 100);
+                            break;
+                        }
+                    }
+                }
             });
+
+            hintModeCheckbox.addEventListener('change', updateButtonsWithHints);
 
             // Start the game
             newRound();
