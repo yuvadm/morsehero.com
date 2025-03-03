@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morse Code Game</title>
+    <script src="https://cwjs.mastercw.com/cw.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .game-container {
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .play-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+        }
+
+        .start-button {
+            background-color: #FF9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 15px 30px;
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        .option-button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .feedback {
+            height: 20px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .incorrect {
+            color: red;
+        }
+
+        #gameArea {
+            display: none;
+        }
+
+        #startScreen {
+            margin: 50px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Morse Code Game</h1>
+
+    <div id="startScreen">
+        <p>Click the button below to start the game and initialize audio</p>
+        <button id="startButton" class="start-button">Start Game</button>
+    </div>
+
+    <div id="gameArea">
+        <div class="game-container">
+            <div>Score: <span id="score">0</span> / <span id="total">0</span></div>
+            <button id="playButton" class="play-button">Play Morse Code</button>
+
+            <div class="options">
+                <button class="option-button" id="option1"></button>
+                <button class="option-button" id="option2"></button>
+                <button class="option-button" id="option3"></button>
+                <button class="option-button" id="option4"></button>
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+        </div>
+
+        <div>
+            <label for="wpmSelect">Speed:</label>
+            <select id="wpmSelect">
+                <option value="10">10 WPM</option>
+                <option value="15" selected>15 WPM</option>
+                <option value="20">20 WPM</option>
+            </select>
+        </div>
+    </div>
+
+    <script>
+        // Game variables
+        let actx = null;
+
+        // Define available characters
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const numbers = '0123456789';
+        const specialChars = '.,?/=';
+        const allChars = letters + numbers + specialChars;
+
+        // Game state
+        let currentChar = '';
+        let score = 0;
+        let totalPlayed = 0;
+
+        // DOM elements
+        const startButton = document.getElementById('startButton');
+        const startScreen = document.getElementById('startScreen');
+        const gameArea = document.getElementById('gameArea');
+
+        // Start button event listener
+        startButton.addEventListener('click', function () {
+            // Initialize audio context only when the start button is clicked
+            try {
+                actx = cw.initAudioContext({ tone: 600 });
+
+                // Hide start screen and show game area
+                startScreen.style.display = 'none';
+                gameArea.style.display = 'block';
+
+                // Initialize the game
+                init();
+            } catch (error) {
+                console.error('Failed to initialize audio context:', error);
+                alert('Failed to initialize audio. Please try again.');
+            }
+        });
+
+        // Initialize the game
+        function init() {
+            // DOM elements for the game
+            const optionButtons = [
+                document.getElementById('option1'),
+                document.getElementById('option2'),
+                document.getElementById('option3'),
+                document.getElementById('option4')
+            ];
+            const playButton = document.getElementById('playButton');
+            const feedbackElement = document.getElementById('feedback');
+            const scoreElement = document.getElementById('score');
+            const totalElement = document.getElementById('total');
+            const wpmSelect = document.getElementById('wpmSelect');
+
+            // Add event listeners
+            playButton.addEventListener('click', playMorse);
+
+            optionButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    checkAnswer(button.textContent);
+                });
+            });
+
+            // Start the game
+            newRound();
+
+            // Generate a new round
+            function newRound() {
+                // Clear feedback
+                feedbackElement.textContent = '';
+                feedbackElement.className = 'feedback';
+
+                // Enable all option buttons
+                optionButtons.forEach(button => {
+                    button.disabled = false;
+                });
+
+                // Generate a random character
+                const randomIndex = Math.floor(Math.random() * allChars.length);
+                currentChar = allChars[randomIndex];
+
+                // Generate 3 wrong options
+                let options = [currentChar];
+                while (options.length < 4) {
+                    const randomIndex = Math.floor(Math.random() * allChars.length);
+                    const randomChar = allChars[randomIndex];
+                    if (!options.includes(randomChar)) {
+                        options.push(randomChar);
+                    }
+                }
+
+                // Shuffle options
+                options = shuffleArray(options);
+
+                // Set button text
+                for (let i = 0; i < 4; i++) {
+                    optionButtons[i].textContent = options[i];
+                }
+            }
+
+            // Play the morse code
+            function playMorse() {
+                const wpm = parseInt(wpmSelect.value);
+
+                // Play the character with the existing audio context
+                cw.play(currentChar, {
+                    actx: actx,
+                    wpm: wpm
+                });
+            }
+
+            // Check the user's answer
+            function checkAnswer(selectedChar) {
+                // Disable all buttons
+                optionButtons.forEach(button => {
+                    button.disabled = true;
+                });
+
+                totalPlayed++;
+                totalElement.textContent = totalPlayed;
+
+                if (selectedChar === currentChar) {
+                    // Correct answer
+                    score++;
+                    scoreElement.textContent = score;
+                    feedbackElement.textContent = 'Correct!';
+                    feedbackElement.className = 'feedback correct';
+                } else {
+                    // Wrong answer
+                    feedbackElement.textContent = 'Wrong! The correct answer was ' + currentChar;
+                    feedbackElement.className = 'feedback incorrect';
+                }
+
+                // Start a new round after a delay
+                setTimeout(newRound, 1000);
+            }
+        }
+
+        // Utility function to shuffle an array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+    </script>
+</body>
+
+</html>
