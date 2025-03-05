@@ -203,83 +203,110 @@ const HomePage = () => {
     return morseMap[char] || '';
   };
 
+  // Reset game to initial state
+  const resetGame = () => {
+    setGameStarted(false);
+    setScore(0);
+    setTotalPlayed(0);
+    setCurrentChar('');
+    setOptions([]);
+
+    // Clear score tracker
+    const scoreTracker = document.getElementById('scoreTracker');
+    if (scoreTracker) {
+      scoreTracker.innerHTML = '';
+    }
+
+    // Stop any playing audio
+    if (actxRef.current) {
+      try {
+        actxRef.current.close();
+        actxRef.current = null;
+      } catch (error) {
+        console.error('Error closing audio context:', error);
+      }
+    }
+  };
+
   return (
     <div className="container">
-      <h1><Link to="/" className="title-link">Morse Hero</Link></h1>
+      <h1 onClick={resetGame} className="title-link">Morse Hero</h1>
 
-      {!gameStarted ? (
-        <div id="startScreen">
-          <p>Learn Morse code the fun way!</p>
-          <button id="startButton" className="start-button" onClick={startGame}>Start</button>
-          <div className="chart-link">
-            <Link to="/chart">View Morse Code Chart</Link>
+      {
+        !gameStarted ? (
+          <div id="startScreen">
+            <p>Learn Morse code the fun way!</p>
+            <button id="startButton" className="start-button" onClick={startGame}>Start</button>
+            <div className="chart-link">
+              <Link to="/chart">View Morse Code Chart</Link>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div id="gameArea" style={{ display: 'block' }}>
-          <div className="score-container">
-            <div className="score-widget">
-              <div className="score-info">
-                <div className="score-label">Score:</div>
-                <div className="score-value">
-                  <span id="score">{score}</span> / <span id="total">{totalPlayed}</span>
+        ) : (
+          <div id="gameArea" style={{ display: 'block' }}>
+            <div className="score-container">
+              <div className="score-widget">
+                <div className="score-info">
+                  <div className="score-label">Score:</div>
+                  <div className="score-value">
+                    <span id="score">{score}</span> / <span id="total">{totalPlayed}</span>
+                  </div>
+                </div>
+                <div className="score-tracker" id="scoreTracker"></div>
+              </div>
+            </div>
+
+            <div className="game-container">
+              <div className="options">
+                {options.map((option, index) => (
+                  <button
+                    key={index}
+                    className="option-button"
+                    ref={el => {
+                      optionButtonsRef.current[index] = el;
+                    }}
+                    onClick={() => checkAnswer(option)}
+                  >
+                    <span className="char-display">{option}</span>
+                    {showHints && <span className="morse-hint">{getMorseCode(option)}</span>}
+                  </button>
+                ))}
+              </div>
+
+              <div className="settings">
+                <label htmlFor="wpmSelect">Speed:</label>
+                <select
+                  id="wpmSelect"
+                  value={wpm}
+                  onChange={(e) => setWpm(parseInt(e.target.value))}
+                >
+                  <option value="10">10 WPM</option>
+                  <option value="15">15 WPM</option>
+                  <option value="20">20 WPM</option>
+                  <option value="25">25 WPM</option>
+                  <option value="30">30 WPM</option>
+                </select>
+                <div className="hint-setting">
+                  <input
+                    type="checkbox"
+                    id="hintMode"
+                    name="hintMode"
+                    checked={showHints}
+                    onChange={(e) => setShowHints(e.target.checked)}
+                  />
+                  <label htmlFor="hintMode">Show Hints</label>
                 </div>
               </div>
-              <div className="score-tracker" id="scoreTracker"></div>
             </div>
           </div>
-
-          <div className="game-container">
-            <div className="options">
-              {options.map((option, index) => (
-                <button
-                  key={index}
-                  className="option-button"
-                  ref={el => {
-                    optionButtonsRef.current[index] = el;
-                  }}
-                  onClick={() => checkAnswer(option)}
-                >
-                  <span className="char-display">{option}</span>
-                  {showHints && <span className="morse-hint">{getMorseCode(option)}</span>}
-                </button>
-              ))}
-            </div>
-
-            <div className="settings">
-              <label htmlFor="wpmSelect">Speed:</label>
-              <select
-                id="wpmSelect"
-                value={wpm}
-                onChange={(e) => setWpm(parseInt(e.target.value))}
-              >
-                <option value="10">10 WPM</option>
-                <option value="15">15 WPM</option>
-                <option value="20">20 WPM</option>
-                <option value="25">25 WPM</option>
-                <option value="30">30 WPM</option>
-              </select>
-              <div className="hint-setting">
-                <input
-                  type="checkbox"
-                  id="hintMode"
-                  name="hintMode"
-                  checked={showHints}
-                  onChange={(e) => setShowHints(e.target.checked)}
-                />
-                <label htmlFor="hintMode">Show Hints</label>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+        )
+      }
 
       <footer className="footer">
         <p>Need help? View the <Link to="/chart">Morse Code Chart</Link>. </p>
         <p>Created with <a href="https://www.mastercw.com/cw.js/">CW.js</a>. For a complete and professional
           Morse Code training solution visit <a href="https://www.mastercw.com">Master CW</a>.</p>
       </footer>
-    </div>
+    </div >
   );
 };
 

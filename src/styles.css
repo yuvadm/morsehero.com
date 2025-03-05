@@ -8,6 +8,12 @@ h1 {
     text-shadow:
         0 0 15px rgba(243, 156, 18, 0.4),
         3px 3px 0px rgba(231, 76, 60, 0.6);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+h1:hover {
+    transform: scale(1.03);
 }
 
 h1::after {
@@ -522,22 +528,30 @@ h1::after {
     0% {
         box-shadow: 0 8px 0 var(--success-dark), 0 0 20px rgba(46, 204, 113, 0.5);
     }
+
     50% {
         box-shadow: 0 8px 0 var(--success-dark), 0 0 40px rgba(46, 204, 113, 0.8);
     }
+
     100% {
         box-shadow: 0 8px 0 var(--success-dark), 0 0 20px rgba(46, 204, 113, 0.5);
     }
 }
 
 @keyframes shake {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateX(0);
     }
-    20%, 60% {
+
+    20%,
+    60% {
         transform: translateX(-10px);
     }
-    40%, 80% {
+
+    40%,
+    80% {
         transform: translateX(10px);
     }
 }
@@ -560,36 +574,36 @@ body.game-active #startScreen {
     .game-container {
         padding: 30px 20px;
     }
-    
+
     .options {
         grid-template-columns: 1fr;
         gap: 20px;
     }
-    
+
     .option-button {
         font-size: 30px;
         padding: 20px 15px;
         min-height: 110px;
     }
-    
+
     h1 {
         font-size: 3.5em;
     }
-    
+
     .start-button {
         font-size: 28px;
         padding: 15px 40px;
     }
-    
+
     .score-container {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .score-widget {
         margin-bottom: 15px;
     }
-    
+
     .settings-toggle {
         margin-left: 0;
         margin-top: 10px;
@@ -600,22 +614,22 @@ body.game-active #startScreen {
     .game-container {
         padding: 25px 15px;
     }
-    
+
     .option-button {
         font-size: 24px;
         padding: 15px 10px;
         min-height: 90px;
     }
-    
+
     h1 {
         font-size: 2.8em;
     }
-    
+
     .start-button {
         font-size: 24px;
         padding: 12px 30px;
     }
-    
+
     .hint-setting {
         margin-left: 0;
         margin-top: 10px;
