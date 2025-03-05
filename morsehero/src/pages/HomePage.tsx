@@ -48,6 +48,14 @@ const HomePage = () => {
     // Clear feedback
     setFeedback('');
 
+    // Reset button states
+    optionButtonsRef.current.forEach(button => {
+      if (button) {
+        button.disabled = false;
+        button.classList.remove('correct', 'incorrect', 'key-pressed');
+      }
+    });
+
     // Generate a random character
     const randomIndex = Math.floor(Math.random() * allChars.length);
     const newChar = allChars[randomIndex];
