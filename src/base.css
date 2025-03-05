@@ -105,7 +105,6 @@ button:hover::after {
 }
 
 .title-link {
-    color: inherit;
     text-decoration: none;
     transition: all var(--transition-normal);
     position: relative;

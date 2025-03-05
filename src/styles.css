@@ -1,13 +1,13 @@
 /* Morse Hero Main Styles */
 
 h1 {
-    font-size: 4.5em;
+    font-size: 5.5em;
     margin-top: 0.5rem;
     letter-spacing: 2px;
     font-weight: 700;
     text-shadow:
-        0 0 15px rgba(243, 156, 18, 0.4),
-        3px 3px 0px rgba(231, 76, 60, 0.6);
+        0 0 15px rgba(231, 76, 60, 0.6),
+        3px 3px 0px rgba(192, 57, 43, 0.8);
     cursor: pointer;
     transition: transform 0.2s ease;
 }
