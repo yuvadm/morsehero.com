@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
+import * as cw from 'cw';
 import '../base.css';
 import '../styles.css';
 
@@ -19,7 +20,7 @@ const HomePage = () => {
   const [options, setOptions] = useState<string[]>([]);
   const [wpm, setWpm] = useState(20);
   const [showHints, setShowHints] = useState(false);
-  
+
   const actxRef = useRef<any>(null);
   const optionButtonsRef = useRef<Array<HTMLButtonElement | null>>([null, null, null, null]);
 
@@ -29,17 +30,13 @@ const HomePage = () => {
   const specialChars = '.,?/=';
   const allChars = letters + numbers + specialChars;
 
-  // Initialize the game when started
+  // Initialize the game when started - this happens on user interaction (button click)
   const startGame = () => {
     try {
-      if (window.cw) {
-        actxRef.current = window.cw.initAudioContext({ tone: 600 });
-        setGameStarted(true);
-        newRound();
-      } else {
-        console.error('CW.js not loaded');
-        alert('Failed to initialize audio. Please try again.');
-      }
+      // Initialize audio context on user interaction
+      actxRef.current = cw.initAudioContext({ tone: 600 });
+      setGameStarted(true);
+      newRound();
     } catch (error) {
       console.error('Failed to initialize audio context:', error);
       alert('Failed to initialize audio. Please try again.');
@@ -58,7 +55,7 @@ const HomePage = () => {
 
     // Generate options (one correct, three random)
     let newOptions = [newChar];
-    
+
     // Add three random unique characters
     while (newOptions.length < 4) {
       const randomChar = allChars[Math.floor(Math.random() * allChars.length)];
@@ -66,7 +63,7 @@ const HomePage = () => {
         newOptions.push(randomChar);
       }
     }
-    
+
     // Shuffle options
     newOptions = shuffleArray(newOptions);
     setOptions(newOptions);
@@ -78,10 +75,9 @@ const HomePage = () => {
   // Play Morse code for a character
   const playMorseCode = (char: string) => {
     if (actxRef.current) {
-      window.cw.playText({
-        text: char,
+      cw.play(char, {
         wpm: wpm,
-        audioContext: actxRef.current
+        actx: actxRef.current
       });
     }
   };
@@ -92,7 +88,7 @@ const HomePage = () => {
       // Correct answer
       setFeedback('Correct!');
       setScore(prevScore => prevScore + 1);
-      
+
       // Add to score tracker
       const scoreTracker = document.getElementById('scoreTracker');
       if (scoreTracker) {
@@ -100,25 +96,25 @@ const HomePage = () => {
         marker.className = 'score-marker correct';
         scoreTracker.appendChild(marker);
       }
-      
+
       // Disable all buttons
       optionButtonsRef.current.forEach(button => {
         if (button) button.disabled = true;
       });
-      
+
       // Highlight the correct button
       const correctButtonIndex = options.indexOf(currentChar);
       if (correctButtonIndex !== -1 && optionButtonsRef.current[correctButtonIndex]) {
         const button = optionButtonsRef.current[correctButtonIndex];
         if (button) button.classList.add('correct');
       }
-      
+
       // Move to next round after delay
       setTimeout(newRound, 1500);
     } else {
       // Incorrect answer
       setFeedback('Incorrect! The correct answer was ' + currentChar);
-      
+
       // Add to score tracker
       const scoreTracker = document.getElementById('scoreTracker');
       if (scoreTracker) {
@@ -126,29 +122,29 @@ const HomePage = () => {
         marker.className = 'score-marker incorrect';
         scoreTracker.appendChild(marker);
       }
-      
+
       // Disable all buttons
       optionButtonsRef.current.forEach(button => {
         if (button) button.disabled = true;
       });
-      
+
       // Highlight the incorrect button and show the correct one
       const selectedButtonIndex = options.indexOf(selectedChar);
       if (selectedButtonIndex !== -1 && optionButtonsRef.current[selectedButtonIndex]) {
         const button = optionButtonsRef.current[selectedButtonIndex];
         if (button) button.classList.add('incorrect');
       }
-      
+
       const correctButtonIndex = options.indexOf(currentChar);
       if (correctButtonIndex !== -1 && optionButtonsRef.current[correctButtonIndex]) {
         const button = optionButtonsRef.current[correctButtonIndex];
         if (button) button.classList.add('correct');
       }
-      
+
       // Move to next round after delay
       setTimeout(newRound, 2000);
     }
-    
+
     setTotalPlayed(prevTotal => prevTotal + 1);
   };
 
@@ -156,9 +152,9 @@ const HomePage = () => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!gameStarted) return;
-      
+
       const key = event.key.toUpperCase();
-      
+
       // Find if any button has this character
       const index = options.findIndex(option => option === key);
       if (index !== -1) {
@@ -172,24 +168,12 @@ const HomePage = () => {
         }
       }
     };
-    
+
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [gameStarted, options]);
-
-  // Load CW.js script
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/cw@latest/dist/cw.min.js';
-    script.async = true;
-    document.body.appendChild(script);
-    
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
 
   // Utility function to shuffle an array
   const shuffleArray = (array: string[]) => {
@@ -203,7 +187,7 @@ const HomePage = () => {
 
   // Get Morse code representation for a character
   const getMorseCode = (char: string) => {
-    const morseMap: {[key: string]: string} = {
+    const morseMap: { [key: string]: string } = {
       'A': '·−', 'B': '−···', 'C': '−·−·', 'D': '−··', 'E': '·',
       'F': '··−·', 'G': '−−·', 'H': '····', 'I': '··', 'J': '·−−−',
       'K': '−·−', 'L': '·−··', 'M': '−−', 'N': '−·', 'O': '−−−',
@@ -213,7 +197,7 @@ const HomePage = () => {
       '4': '····−', '5': '·····', '6': '−····', '7': '−−···', '8': '−−−··',
       '9': '−−−−·', '.': '·−·−·−', ',': '−−··−−', '?': '··−−··', '/': '−··−·', '=': '−···−'
     };
-    
+
     return morseMap[char] || '';
   };
 
@@ -246,9 +230,9 @@ const HomePage = () => {
           <div className="game-container">
             <div className="options">
               {options.map((option, index) => (
-                <button 
+                <button
                   key={index}
-                  className="option-button" 
+                  className="option-button"
                   ref={el => {
                     optionButtonsRef.current[index] = el;
                   }}
@@ -265,7 +249,7 @@ const HomePage = () => {
 
           <div className="settings">
             <label htmlFor="wpmSelect">Speed:</label>
-            <select 
+            <select
               id="wpmSelect"
               value={wpm}
               onChange={(e) => setWpm(parseInt(e.target.value))}
@@ -277,9 +261,9 @@ const HomePage = () => {
               <option value="30">30 WPM</option>
             </select>
             <div className="hint-setting">
-              <input 
-                type="checkbox" 
-                id="hintMode" 
+              <input
+                type="checkbox"
+                id="hintMode"
                 name="hintMode"
                 checked={showHints}
                 onChange={(e) => setShowHints(e.target.checked)}

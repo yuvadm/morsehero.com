@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router';
+import * as cw from 'cw';
 import '../../base.css';
 import './styles.css';
 
@@ -14,12 +15,10 @@ const ChartPage = () => {
 
   // Initialize audio context
   const initAudio = () => {
+    if (actxRef.current) return; // Already initialized
+
     try {
-      if (window.cw) {
-        actxRef.current = window.cw.initAudioContext({ tone: 600 });
-      } else {
-        console.error('CW.js not loaded');
-      }
+      actxRef.current = cw.initAudioContext({ tone: 600 });
     } catch (error) {
       console.error('Failed to initialize audio context:', error);
     }
@@ -27,28 +26,28 @@ const ChartPage = () => {
 
   // Play Morse code for a character
   const playCharacter = (character: string) => {
+    // Initialize audio on first user interaction
     if (!actxRef.current) {
       initAudio();
     }
-    
+
     if (actxRef.current) {
       // Remove 'playing' class from all items
       document.querySelectorAll('.morse-item').forEach(item => {
         item.classList.remove('playing');
       });
-      
+
       // Add 'playing' class to the clicked item
       const clickedItem = document.querySelector(`.morse-item[data-char="${character}"]`);
       if (clickedItem) {
         clickedItem.classList.add('playing');
       }
-      
-      window.cw.playText({
-        text: character,
+
+      cw.play(character, {
         wpm: 20,
-        audioContext: actxRef.current
+        actx: actxRef.current
       });
-      
+
       // Remove the 'playing' class after the audio finishes
       setTimeout(() => {
         if (clickedItem) {
@@ -57,22 +56,6 @@ const ChartPage = () => {
       }, 2000);
     }
   };
-
-  // Load CW.js script
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://cwjs.mastercw.com/cw.min.js';
-    script.async = true;
-    document.body.appendChild(script);
-    
-    script.onload = () => {
-      initAudio();
-    };
-    
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
 
   // Add click event listeners to all morse items
   useEffect(() => {
@@ -178,7 +161,7 @@ const ChartPage = () => {
 
 // Helper function to get morse code representation
 const getMorseCode = (char: string) => {
-  const morseMap: {[key: string]: string} = {
+  const morseMap: { [key: string]: string } = {
     'A': '·−', 'B': '−···', 'C': '−·−·', 'D': '−··', 'E': '·',
     'F': '··−·', 'G': '−−·', 'H': '····', 'I': '··', 'J': '·−−−',
     'K': '−·−', 'L': '·−··', 'M': '−−', 'N': '−·', 'O': '−−−',
@@ -188,7 +171,7 @@ const getMorseCode = (char: string) => {
     '4': '····−', '5': '·····', '6': '−····', '7': '−−···', '8': '−−−··',
     '9': '−−−−·', '.': '·−·−·−', ',': '−−··−−', '?': '··−−··', '/': '−··−·', '=': '−···−'
   };
-  
+
   return morseMap[char] || '';
 };
 
