@@ -16,7 +16,6 @@ const HomePage = () => {
   const [score, setScore] = useState(0);
   const [totalPlayed, setTotalPlayed] = useState(0);
   const [currentChar, setCurrentChar] = useState('');
-  const [feedback, setFeedback] = useState('');
   const [options, setOptions] = useState<string[]>([]);
   const [wpm, setWpm] = useState(20);
   const [showHints, setShowHints] = useState(false);
@@ -45,9 +44,6 @@ const HomePage = () => {
 
   // Generate a new round
   const newRound = () => {
-    // Clear feedback
-    setFeedback('');
-
     // Reset button states
     optionButtonsRef.current.forEach(button => {
       if (button) {
@@ -94,7 +90,6 @@ const HomePage = () => {
   const checkAnswer = (selectedChar: string) => {
     if (selectedChar === currentChar) {
       // Correct answer
-      setFeedback('Correct!');
       setScore(prevScore => prevScore + 1);
 
       // Add to score tracker
@@ -121,7 +116,6 @@ const HomePage = () => {
       setTimeout(newRound, 1500);
     } else {
       // Incorrect answer
-      setFeedback('Incorrect! The correct answer was ' + currentChar);
 
       // Add to score tracker
       const scoreTracker = document.getElementById('scoreTracker');
@@ -252,31 +246,29 @@ const HomePage = () => {
               ))}
             </div>
 
-            <div className="feedback" id="feedback">{feedback}</div>
-          </div>
-
-          <div className="settings">
-            <label htmlFor="wpmSelect">Speed:</label>
-            <select
-              id="wpmSelect"
-              value={wpm}
-              onChange={(e) => setWpm(parseInt(e.target.value))}
-            >
-              <option value="10">10 WPM</option>
-              <option value="15">15 WPM</option>
-              <option value="20">20 WPM</option>
-              <option value="25">25 WPM</option>
-              <option value="30">30 WPM</option>
-            </select>
-            <div className="hint-setting">
-              <input
-                type="checkbox"
-                id="hintMode"
-                name="hintMode"
-                checked={showHints}
-                onChange={(e) => setShowHints(e.target.checked)}
-              />
-              <label htmlFor="hintMode">Show Hints</label>
+            <div className="settings">
+              <label htmlFor="wpmSelect">Speed:</label>
+              <select
+                id="wpmSelect"
+                value={wpm}
+                onChange={(e) => setWpm(parseInt(e.target.value))}
+              >
+                <option value="10">10 WPM</option>
+                <option value="15">15 WPM</option>
+                <option value="20">20 WPM</option>
+                <option value="25">25 WPM</option>
+                <option value="30">30 WPM</option>
+              </select>
+              <div className="hint-setting">
+                <input
+                  type="checkbox"
+                  id="hintMode"
+                  name="hintMode"
+                  checked={showHints}
+                  onChange={(e) => setShowHints(e.target.checked)}
+                />
+                <label htmlFor="hintMode">Show Hints</label>
+              </div>
             </div>
           </div>
         </div>
