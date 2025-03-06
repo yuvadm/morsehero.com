@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router';
-import * as cw from 'cw';
+import cw from 'cw';
 import '../../base.css';
 import './styles.css';
 
@@ -117,32 +117,6 @@ const ChartPage = () => {
               <div className="morse">{getMorseCode(char)}</div>
             </div>
           ))}
-        </div>
-      </div>
-
-      <div className="chart-section">
-        <h2>Prosigns</h2>
-        <div className="morse-grid">
-          <div className="morse-item">
-            <div className="character">AR</div>
-            <div className="morse">·−·−·</div>
-            <div className="description">End of message</div>
-          </div>
-          <div className="morse-item">
-            <div className="character">SK</div>
-            <div className="morse">···−·−</div>
-            <div className="description">End of contact</div>
-          </div>
-          <div className="morse-item">
-            <div className="character">BT</div>
-            <div className="morse">−···−</div>
-            <div className="description">Break</div>
-          </div>
-          <div className="morse-item">
-            <div className="character">KN</div>
-            <div className="morse">−·−−·</div>
-            <div className="description">Go only</div>
-          </div>
         </div>
       </div>
 
