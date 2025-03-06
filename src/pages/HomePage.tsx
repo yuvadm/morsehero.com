@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
-import * as cw from 'cw';
+import cw from 'cw';
 import '../base.css';
 import '../styles.css';
 
