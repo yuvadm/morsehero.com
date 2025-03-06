@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import cw from 'cw';
-import '../../base.css';
-import './styles.css';
+import '../../styles.css';
 
 declare global {
   interface Window {
@@ -81,7 +80,9 @@ const ChartPage = () => {
 
   return (
     <div className="container">
-      <h1><Link to="/" className="title-link">Morse Hero</Link></h1>
+      <h1 className="title-link">
+        <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>Morse Hero</Link>
+      </h1>
       <h2>Morse Code Chart</h2>
 
       <div className="chart-section">

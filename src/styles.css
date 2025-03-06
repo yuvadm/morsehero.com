@@ -1,3 +1,138 @@
+/* Morse Hero Base Styles */
+:root {
+    --primary-color: #3498db;
+    --primary-dark: #2980b9;
+    --secondary-color: #f39c12;
+    --secondary-dark: #e67e22;
+    --accent-color: #e74c3c;
+    --accent-dark: #c0392b;
+    --success-color: #2ecc71;
+    --success-dark: #27ae60;
+    --bg-dark: #2c3e50;
+    --bg-darker: #1a2530;
+    --bg-light: #34495e;
+    --text-light: #ecf0f1;
+    --text-dim: rgba(255, 255, 255, 0.7);
+    --border-radius-sm: 12px;
+    --border-radius-md: 20px;
+    --border-radius-lg: 30px;
+    --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 10px 20px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.2);
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', 'Fredoka', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(ellipse at top, var(--bg-dark) 0%, var(--bg-darker) 100%);
+    color: var(--text-light);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    text-align: center;
+    width: 100%;
+}
+
+button {
+    cursor: pointer;
+    font-family: 'Poppins', 'Fredoka', sans-serif;
+    transition: all var(--transition-normal);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+    border: none;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+}
+
+button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+button:hover::after {
+    opacity: 1;
+}
+
+.title-link {
+    text-decoration: none;
+    transition: all var(--transition-normal);
+    position: relative;
+    display: inline-block;
+}
+
+.title-link:hover {
+    color: var(--secondary-color);
+    text-shadow: 0 0 15px rgba(243, 156, 18, 0.6);
+}
+
+.footer {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    font-size: 16px;
+    color: var(--text-dim);
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color var(--transition-normal);
+    position: relative;
+}
+
+.footer a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--primary-color);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+.footer a:hover {
+    color: var(--secondary-color);
+}
+
+.footer a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
 /* Morse Hero Main Styles */
 
 h1 {
@@ -10,6 +145,10 @@ h1 {
         3px 3px 0px rgba(192, 57, 43, 0.8);
     cursor: pointer;
     transition: transform 0.2s ease;
+    color: var(--secondary-color);
+    font-family: 'Fredoka', sans-serif;
+    position: relative;
+    display: inline-block;
 }
 
 h1:hover {
@@ -571,6 +710,10 @@ body.game-active #startScreen {
 }
 
 @media (max-width: 768px) {
+    .container {
+        padding: 20px 15px;
+    }
+
     .game-container {
         padding: 30px 20px;
     }
@@ -586,8 +729,8 @@ body.game-active #startScreen {
         min-height: 110px;
     }
 
-    h1 {
-        font-size: 3.5em;
+    button {
+        font-size: 16px;
     }
 
     .start-button {
@@ -608,9 +751,35 @@ body.game-active #startScreen {
         margin-left: 0;
         margin-top: 10px;
     }
+
+    /* Chart specific media queries */
+    .morse-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 15px;
+    }
+
+    .morse-item {
+        padding: 15px 10px;
+    }
+
+    .character {
+        font-size: 28px;
+    }
+
+    .morse {
+        font-size: 16px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
 }
 
 @media (max-width: 480px) {
+    .container {
+        padding: 15px 10px;
+    }
+
     .game-container {
         padding: 25px 15px;
     }
@@ -619,10 +788,6 @@ body.game-active #startScreen {
         font-size: 24px;
         padding: 15px 10px;
         min-height: 90px;
-    }
-
-    h1 {
-        font-size: 2.8em;
     }
 
     .start-button {
@@ -634,4 +799,115 @@ body.game-active #startScreen {
         margin-left: 0;
         margin-top: 10px;
     }
+}
+
+/* Chart Styles */
+.chart-section {
+    background: linear-gradient(145deg, var(--bg-light) 0%, #2d3e50 100%);
+    border-radius: var(--border-radius-md);
+    padding: 30px 25px;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    z-index: 1;
+}
+
+.morse-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 20px;
+    margin: 0 auto;
+}
+
+.morse-item {
+    background: linear-gradient(145deg, rgba(52, 152, 219, 0.1) 0%, rgba(52, 152, 219, 0.2) 100%);
+    border-radius: var(--border-radius-sm);
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+    cursor: pointer;
+    border: 1px solid rgba(52, 152, 219, 0.2);
+}
+
+.morse-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    background: linear-gradient(145deg, rgba(52, 152, 219, 0.2) 0%, rgba(52, 152, 219, 0.3) 100%);
+    border-color: rgba(52, 152, 219, 0.3);
+}
+
+.morse-item.playing {
+    background: linear-gradient(145deg, rgba(243, 156, 18, 0.2) 0%, rgba(243, 156, 18, 0.3) 100%);
+    box-shadow: 0 0 20px rgba(243, 156, 18, 0.4);
+    border-color: rgba(243, 156, 18, 0.4);
+}
+
+.character {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.morse {
+    font-family: monospace;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+}
+
+.back-link {
+    margin-top: 40px;
+    font-size: 18px;
+}
+
+.back-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: all var(--transition-normal);
+    position: relative;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius-sm);
+    display: inline-block;
+}
+
+.back-link a:hover {
+    color: var(--secondary-color);
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-sm);
+}
+
+.back-link a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 5px;
+    left: 0;
+    background-color: var(--primary-color);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+.back-link a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+    background-color: var(--secondary-color);
 }

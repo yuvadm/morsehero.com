@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import cw from 'cw';
-import '../base.css';
 import '../styles.css';
 
 declare global {
