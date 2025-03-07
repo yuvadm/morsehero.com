@@ -152,10 +152,11 @@ button:active {
     background: linear-gradient(to top, rgba(26, 37, 48, 0.9), rgba(26, 37, 48, 0.7));
     backdrop-filter: blur(10px);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
 }
 
 .footer-unified {
-    max-width: 1200px;
+    max-width: 600px;
     margin: 0 auto;
 }
 
@@ -187,12 +188,12 @@ h1::after {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 30px;
+    gap: 20px;
 }
 
 .footer-section {
     flex: 1;
-    min-width: 250px;
+    min-width: 160px;
     text-align: left;
 }
 
