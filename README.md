@@ -1,54 +1,33 @@
-# React + TypeScript + Vite
+# Morse Hero
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+https://morsehero.com/
 
-Currently, two official plugins are available:
+A web-based game to help you learn and practice Morse code through interactive play. Listen to Morse code signals and identify the corresponding characters to improve your skills.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## About
 
-## Expanding the ESLint configuration
+Morse Hero is an engaging web application that turns learning Morse code into a fun game. The app plays Morse code audio signals and challenges you to identify the correct character from multiple options. Perfect for beginners looking to learn Morse code or experienced operators wanting to maintain their skills.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- Interactive Morse code learning through gameplay
+- Adjustable speed (WPM) settings
+- Multiple choice format for character identification
+- Progress tracking with score counter
+- Support for letters, numbers, and special characters
+
+## Setup
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Visit the local development server URL shown in your terminal to start playing.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Technologies
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+Built with React, TypeScript, and Vite.
