@@ -17,13 +17,9 @@ const Footer: React.FC<FooterProps> = ({ currentPage = 'home' }) => {
           <div className="footer-section">
             <h3>Quick Links</h3>
             <ul>
-              {currentPage === 'chart' && (
-                <li><Link to="/">Morse Hero Game</Link></li>
-              )}
-              {currentPage === 'home' && (
-                <li><Link to="/chart">Morse Code Chart</Link></li>
-              )}
-              <li><a href="https://en.wikipedia.org/wiki/Morse_code" target="_blank" rel="noopener noreferrer">Learn More</a></li>
+              <li><Link to="/">Game</Link></li>
+              <li><Link to="/chart">Reference Chart</Link></li>
+              <li><Link to="https://www.mastercw.com">Learn Morse Code</Link></li>
             </ul>
           </div>
           <div className="footer-section">
