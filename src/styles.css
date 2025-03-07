@@ -26,6 +26,7 @@
     --header-height: 70px;
     --footer-height: 100px;
     --glow-color: rgba(243, 156, 18, 0.6);
+    --error-color: #e74c3c;
 }
 
 * {
@@ -301,82 +302,33 @@ h1::after {
 .options {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    margin-top: 40px;
-}
-
-.start-button {
-    background: linear-gradient(145deg, var(--accent-color) 0%, #c0392b 100%);
-    color: white;
-    border: none;
-    padding: 20px 50px;
-    font-size: 32px;
-    font-weight: 700;
-    border-radius: var(--border-radius-lg);
-    cursor: pointer;
-    transition: all var(--transition-normal);
-    box-shadow: var(--shadow-md);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 30px;
+    grid-template-rows: 1fr 1fr;
+    gap: 15px;
+    margin: 20px auto;
     width: 100%;
-    max-width: 300px;
-    position: relative;
-    z-index: 1;
-}
-
-.start-button:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
-    background: linear-gradient(145deg, #e74c3c 0%, var(--accent-color) 100%);
-}
-
-.start-button:active {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
+    max-width: 500px;
+    aspect-ratio: 2/1;
 }
 
 .option-button {
-    background: linear-gradient(145deg, var(--primary-color), var(--primary-dark));
-    color: white;
+    padding: 20px;
+    font-size: 2rem;
+    font-weight: 600;
+    border: none;
     border-radius: var(--border-radius-md);
-    font-size: 36px;
-    padding: 25px 15px;
-    box-shadow: 0 8px 0 var(--primary-dark),
-        var(--shadow-md);
-    min-height: 130px;
+    background: var(--card-bg);
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: relative;
-    z-index: 1;
-}
-
-.option-button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 13px 0 var(--primary-dark),
-        var(--shadow-lg);
-}
-
-.option-button:active {
-    transform: translateY(3px);
-    box-shadow: 0 5px 0 var(--primary-dark),
-        var(--shadow-sm);
-}
-
-.option-button.correct {
-    background: linear-gradient(145deg, var(--success-color), var(--success-dark));
-    box-shadow: 0 8px 0 var(--success-dark),
-        0 0 30px rgba(46, 204, 113, 0.5);
-    animation: pulse 0.5s;
-}
-
-.option-button.incorrect {
-    background: linear-gradient(145deg, var(--accent-color), var(--accent-dark));
-    box-shadow: 0 8px 0 var(--accent-dark),
-        0 0 30px rgba(231, 76, 60, 0.5);
-    animation: shake 0.5s;
+    flex-direction: column;
 }
 
 .char-display {
@@ -513,6 +465,11 @@ h1::after {
     border-color: rgba(52, 152, 219, 0.5);
 }
 
+#startScreen .chart-link a:active {
+    transform: translateY(1px);
+    box-shadow: var(--shadow-sm);
+}
+
 .score-container {
     margin-bottom: 20px;
     width: 100%;
@@ -572,7 +529,7 @@ h1::after {
 }
 
 .score-marker.incorrect {
-    background-color: var(--accent-color);
+    background-color: var(--error-color);
     box-shadow: 0 0 5px rgba(231, 76, 60, 0.7);
 }
 
@@ -590,7 +547,7 @@ h1::after {
 }
 
 .score-dot.incorrect {
-    background-color: var(--accent-color);
+    background-color: var(--error-color);
     box-shadow: 0 0 5px rgba(231, 76, 60, 0.7);
 }
 
@@ -1065,11 +1022,6 @@ body.game-active #startScreen {
     animation: correct-pulse 1s infinite;
 }
 
-.option-button.incorrect {
-    background: linear-gradient(145deg, var(--accent-color), var(--accent-dark));
-    animation: incorrect-shake 0.5s;
-}
-
 /* Start screen styles */
 #startScreen {
     max-width: 600px;
@@ -1422,18 +1374,49 @@ body.game-active #startScreen {
 }
 
 .replay-button {
-    background: linear-gradient(145deg, var(--primary-color), var(--primary-dark));
-    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-light);
     padding: 8px 15px;
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--border-radius-md);
     font-size: 0.9rem;
-    display: inline-flex;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 5px;
+    margin: 15px auto;
+    backdrop-filter: blur(5px);
+}
+
+.replay-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.replay-button:active {
+    transform: translateY(1px);
+    box-shadow: var(--shadow-sm);
 }
 
 .replay-icon {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    animation: spin 2s linear infinite paused;
+}
+
+.replay-button:hover .replay-icon {
+    animation-play-state: running;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* Settings styles */

@@ -2,11 +2,14 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import cw from 'cw';
 import '../styles.css';
+import '../components/OptionButtons.css';
 import Footer from '../components/Footer';
 
 declare global {
   interface Window {
     cw: any;
+    AudioContext: typeof AudioContext;
+    webkitAudioContext: typeof AudioContext;
   }
 }
 
@@ -20,6 +23,9 @@ const HomePage = () => {
   const [wpm, setWpm] = useState(20);
   const [showHints, setShowHints] = useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [_correctAnswers, setCorrectAnswers] = useState<string[]>([]);
+  const [_incorrectAnswers, setIncorrectAnswers] = useState<string[]>([]);
 
   const actxRef = useRef<any>(null);
   const optionButtonsRef = useRef<Array<HTMLButtonElement | null>>([null, null, null, null]);
@@ -45,6 +51,7 @@ const HomePage = () => {
 
   // Generate a new round
   const newRound = () => {
+    setSelectedOption(null);
     // Reset button states
     optionButtonsRef.current.forEach(button => {
       if (button) {
@@ -59,18 +66,15 @@ const HomePage = () => {
     setCurrentChar(newChar);
 
     // Generate options (one correct, three random)
-    let newOptions = [newChar];
+    const generateOptions = (correctChar: string): string[] => {
+      const possibleChars = allChars.split("");
+      const filteredChars = possibleChars.filter(char => char !== correctChar);
+      const shuffled = [...filteredChars].sort(() => 0.5 - Math.random());
+      const options = [correctChar, ...shuffled.slice(0, 3)];
+      return options.sort(() => 0.5 - Math.random());
+    };
 
-    // Add three random unique characters
-    while (newOptions.length < 4) {
-      const randomChar = allChars[Math.floor(Math.random() * allChars.length)];
-      if (!newOptions.includes(randomChar)) {
-        newOptions.push(randomChar);
-      }
-    }
-
-    // Shuffle options
-    newOptions = shuffleArray(newOptions);
+    const newOptions = generateOptions(newChar);
     setOptions(newOptions);
 
     // Play the Morse code for the character
@@ -79,18 +83,28 @@ const HomePage = () => {
 
   // Play Morse code for a character
   const playMorseCode = (char: string) => {
-    if (actxRef.current) {
+    if (!char) return;
+
+    try {
+      if (!actxRef.current) {
+        actxRef.current = cw.initAudioContext({ tone: 600 });
+      }
+
       cw.play(char, {
         wpm: wpm,
         actx: actxRef.current
       });
+    } catch (error) {
+      console.error('Error playing Morse code:', error);
     }
   };
 
   // Check if the answer is correct
   const checkAnswer = (selectedChar: string) => {
-    if (selectedChar === currentChar) {
-      // Correct answer
+    setSelectedOption(selectedChar);
+    const isCorrect = selectedChar === currentChar;
+
+    if (isCorrect) {
       setScore(prevScore => prevScore + 1);
 
       // Add to score tracker
@@ -100,24 +114,7 @@ const HomePage = () => {
         marker.className = 'score-marker correct';
         scoreTracker.appendChild(marker);
       }
-
-      // Disable all buttons
-      optionButtonsRef.current.forEach(button => {
-        if (button) button.disabled = true;
-      });
-
-      // Highlight the correct button
-      const correctButtonIndex = options.indexOf(currentChar);
-      if (correctButtonIndex !== -1 && optionButtonsRef.current[correctButtonIndex]) {
-        const button = optionButtonsRef.current[correctButtonIndex];
-        if (button) button.classList.add('correct');
-      }
-
-      // Move to next round after delay
-      setTimeout(newRound, 1500);
     } else {
-      // Incorrect answer
-
       // Add to score tracker
       const scoreTracker = document.getElementById('scoreTracker');
       if (scoreTracker) {
@@ -126,29 +123,25 @@ const HomePage = () => {
         scoreTracker.appendChild(marker);
       }
 
-      // Disable all buttons
-      optionButtonsRef.current.forEach(button => {
-        if (button) button.disabled = true;
-      });
-
-      // Highlight the incorrect button and show the correct one
-      const selectedButtonIndex = options.indexOf(selectedChar);
-      if (selectedButtonIndex !== -1 && optionButtonsRef.current[selectedButtonIndex]) {
-        const button = optionButtonsRef.current[selectedButtonIndex];
-        if (button) button.classList.add('incorrect');
+      // Highlight the correct answer
+      const correctIndex = options.findIndex(option => option === currentChar);
+      if (correctIndex !== -1) {
+        const correctButton = optionButtonsRef.current[correctIndex];
+        if (correctButton) {
+          // Add a small delay before showing the correct answer
+          setTimeout(() => {
+            correctButton.classList.add('correct');
+          }, 300);
+        }
       }
-
-      const correctButtonIndex = options.indexOf(currentChar);
-      if (correctButtonIndex !== -1 && optionButtonsRef.current[correctButtonIndex]) {
-        const button = optionButtonsRef.current[correctButtonIndex];
-        if (button) button.classList.add('correct');
-      }
-
-      // Move to next round after delay
-      setTimeout(newRound, 2000);
     }
 
     setTotalPlayed(prevTotal => prevTotal + 1);
+
+    // Proceed to next round after a delay
+    setTimeout(() => {
+      newRound();
+    }, 1500); // Increased delay to give time to see the correct answer
   };
 
   // Handle keyboard input
@@ -166,7 +159,7 @@ const HomePage = () => {
           button.classList.add('key-pressed');
           setTimeout(() => {
             button.classList.remove('key-pressed');
-            checkAnswer(key);
+            handleOptionClick(key, index);
           }, 100);
         }
       }
@@ -177,16 +170,6 @@ const HomePage = () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [gameStarted, options]);
-
-  // Utility function to shuffle an array
-  const shuffleArray = (array: string[]) => {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
-  };
 
   // Get Morse code representation for a character
   const getMorseCode = (char: string) => {
@@ -211,6 +194,8 @@ const HomePage = () => {
     setTotalPlayed(0);
     setCurrentChar('');
     setOptions([]);
+    setCorrectAnswers([]);
+    setIncorrectAnswers([]);
 
     // Clear score tracker
     const scoreTracker = document.getElementById('scoreTracker');
@@ -226,6 +211,27 @@ const HomePage = () => {
       } catch (error) {
         console.error('Error closing audio context:', error);
       }
+    }
+  };
+
+  // Handle option button click
+  const handleOptionClick = (option: string, index: number) => {
+    const button = optionButtonsRef.current[index];
+    if (button) {
+      // Disable all buttons to prevent multiple selections
+      optionButtonsRef.current.forEach(btn => {
+        if (btn) btn.disabled = true;
+      });
+
+      // Add appropriate class based on correctness
+      if (option === currentChar) {
+        button.classList.add('correct');
+      } else {
+        button.classList.add('incorrect');
+      }
+
+      // Check the answer
+      checkAnswer(option);
     }
   };
 
@@ -319,11 +325,17 @@ const HomePage = () => {
                 {options.map((option, index) => (
                   <button
                     key={index}
-                    className="option-button"
+                    className={`option-button ${selectedOption === option
+                      ? option === currentChar
+                        ? "correct"
+                        : "incorrect"
+                      : ""
+                      }`}
                     ref={el => {
                       optionButtonsRef.current[index] = el;
                     }}
-                    onClick={() => checkAnswer(option)}
+                    onClick={() => handleOptionClick(option, index)}
+                    disabled={selectedOption !== null}
                   >
                     <span className="char-display">{option}</span>
                     {showHints && <span className="morse-hint">{getMorseCode(option)}</span>}
@@ -356,7 +368,6 @@ const HomePage = () => {
                   />
                   <label htmlFor="hintMode">Show Hints</label>
                 </div>
-                <button className="reset-button" onClick={resetGame}>New Game</button>
               </div>
 
               <div className="keyboard-tip">
