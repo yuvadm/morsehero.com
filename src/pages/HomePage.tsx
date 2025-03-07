@@ -369,7 +369,7 @@ const HomePage = () => {
         )
       }
 
-      <Footer currentPage="home" />
+      <Footer />
     </div >
   );
 };

@@ -5,7 +5,7 @@ interface FooterProps {
   currentPage?: 'home' | 'chart';
 }
 
-const Footer: React.FC<FooterProps> = ({ currentPage = 'home' }) => {
+const Footer: React.FC<FooterProps> = () => {
   return (
     <footer className="footer">
       <div className="footer-unified">

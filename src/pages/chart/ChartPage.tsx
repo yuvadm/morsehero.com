@@ -152,7 +152,7 @@ const ChartPage = () => {
         <Link to="/">Back to Game</Link>
       </div>
 
-      <Footer currentPage="chart" />
+      <Footer />
     </div>
   );
 };
