@@ -14,7 +14,7 @@ interface MorseGameProps {
   onReset?: () => void;
 }
 
-const MorseGame: React.FC<MorseGameProps> = ({ onReset }) => {
+const MorseGame: React.FC<MorseGameProps> = () => {
   // Game variables
   const [score, setScore] = useState(0);
   const [totalPlayed, setTotalPlayed] = useState(0);
@@ -23,8 +23,6 @@ const MorseGame: React.FC<MorseGameProps> = ({ onReset }) => {
   const [wpm, setWpm] = useState(20);
   const [showHints, setShowHints] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [_correctAnswers, setCorrectAnswers] = useState<string[]>([]);
-  const [_incorrectAnswers, setIncorrectAnswers] = useState<string[]>([]);
 
   const actxRef = useRef<any>(null);
   const optionButtonsRef = useRef<Array<HTMLButtonElement | null>>([null, null, null, null]);
@@ -200,38 +198,6 @@ const MorseGame: React.FC<MorseGameProps> = ({ onReset }) => {
     };
 
     return morseMap[char] || '';
-  };
-
-  // Reset game to initial state
-  const resetGame = () => {
-    setScore(0);
-    setTotalPlayed(0);
-    setCurrentChar('');
-    setOptions([]);
-    setCorrectAnswers([]);
-    setIncorrectAnswers([]);
-
-    // Clear score tracker
-    const scoreTracker = document.getElementById('scoreTracker');
-    if (scoreTracker) {
-      scoreTracker.innerHTML = '';
-    }
-
-    // Stop any playing audio
-    if (actxRef.current) {
-      try {
-        actxRef.current.close();
-        actxRef.current = null;
-        isInitializedRef.current = false;
-      } catch (error) {
-        console.error('Error closing audio context:', error);
-      }
-    }
-
-    // Call the parent's reset function if provided
-    if (onReset) {
-      onReset();
-    }
   };
 
   // Handle option button click
