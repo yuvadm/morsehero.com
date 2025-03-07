@@ -146,15 +146,16 @@ button:active {
 }
 
 .footer {
-    margin-top: 40px;
-    padding: 20px;
-    text-align: center;
-    font-size: 16px;
-    color: var(--text-dim);
+    margin-top: 60px;
+    padding: 40px 20px;
+    background: linear-gradient(to top, rgba(26, 37, 48, 0.9), rgba(26, 37, 48, 0.7));
+    backdrop-filter: blur(10px);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    width: 100%;
-    background: linear-gradient(to top, rgba(26, 37, 48, 0.8), transparent);
-    backdrop-filter: blur(5px);
+}
+
+.footer-unified {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 h1 {
@@ -179,6 +180,101 @@ h1:hover {
 
 h1::after {
     width: 80px;
+}
+
+.footer-sections {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+    text-align: left;
+}
+
+.footer-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--text-light);
+    position: relative;
+    display: inline-block;
+}
+
+.footer-section h3::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: var(--primary-color);
+}
+
+.footer-section p {
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section li {
+    margin-bottom: 10px;
+}
+
+.footer-section a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: all var(--transition-normal);
+    position: relative;
+}
+
+.footer-section a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--primary-color);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+.footer-section a:hover {
+    color: var(--secondary-color);
+}
+
+.footer-section a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .footer-sections {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .footer-section {
+        min-width: 100%;
+    }
+    
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-content > p {
+        max-width: 100%;
+    }
 }
 
 .game-container {
@@ -1190,7 +1286,7 @@ body.game-active #startScreen {
     font-weight: 600;
 }
 
-.hero-content > p {
+.hero-content>p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
     max-width: 80%;
@@ -1376,21 +1472,28 @@ body.game-active #startScreen {
 /* Enhanced footer */
 .footer {
     margin-top: 60px;
-    padding: 40px 20px 20px;
+    padding: 40px 20px;
+    background: linear-gradient(to top, rgba(26, 37, 48, 0.9), rgba(26, 37, 48, 0.7));
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.footer-content {
+.footer-unified {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-sections {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 30px;
-    margin-bottom: 30px;
-    text-align: left;
 }
 
 .footer-section {
     flex: 1;
     min-width: 250px;
+    text-align: left;
 }
 
 .footer-section h3 {
@@ -1414,6 +1517,7 @@ body.game-active #startScreen {
 .footer-section p {
     color: var(--text-dim);
     line-height: 1.6;
+    margin-bottom: 10px;
 }
 
 .footer-section ul {
@@ -1454,39 +1558,15 @@ body.game-active #startScreen {
     transform-origin: bottom left;
 }
 
-.footer-bottom {
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    text-align: center;
-}
-
-.footer-bottom p {
-    margin-bottom: 10px;
-}
-
-.footer-bottom a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 600;
-    transition: color var(--transition-normal);
-}
-
-.footer-bottom a:hover {
-    color: var(--secondary-color);
-}
-
 /* Media queries for responsiveness */
 @media (max-width: 768px) {
-    .feature-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .footer-content {
+    .footer-sections {
         flex-direction: column;
+        gap: 20px;
     }
-    
-    .hero-content > p {
-        max-width: 100%;
+
+    .footer-section {
+        min-width: 100%;
     }
 }
 
@@ -1665,15 +1745,15 @@ body.game-active #startScreen {
         grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
         gap: 10px;
     }
-    
+
     .morse-item .character {
         font-size: 1.5rem;
     }
-    
+
     .morse-item .morse {
         font-size: 0.9rem;
     }
-    
+
     .morse-info-card,
     .morse-history,
     .chart-section {
@@ -1686,15 +1766,15 @@ body.game-active #startScreen {
         grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
         gap: 8px;
     }
-    
+
     .morse-item {
         padding: 10px 5px;
     }
-    
+
     .morse-item .character {
         font-size: 1.3rem;
     }
-    
+
     .morse-item .morse {
         font-size: 0.8rem;
     }
