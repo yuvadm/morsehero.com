@@ -268,6 +268,7 @@ h1::after {
 
     .footer-section {
         min-width: 100%;
+        flex-basis: 100%;
     }
 
     .feature-grid {
@@ -1454,20 +1455,6 @@ body.game-active #startScreen {
     font-style: italic;
 }
 
-/* Enhanced footer */
-.footer {
-    margin-top: 60px;
-    padding: 40px 20px;
-    background: linear-gradient(to top, rgba(26, 37, 48, 0.9), rgba(26, 37, 48, 0.7));
-    backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.footer-unified {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
 .footer-sections {
     display: flex;
     flex-wrap: wrap;
@@ -1479,80 +1466,6 @@ body.game-active #startScreen {
     flex: 1;
     min-width: 250px;
     text-align: left;
-}
-
-.footer-section h3 {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    color: var(--text-light);
-    position: relative;
-    display: inline-block;
-}
-
-.footer-section h3::after {
-    content: "";
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 30px;
-    height: 2px;
-    background: var(--primary-color);
-}
-
-.footer-section p {
-    color: var(--text-dim);
-    line-height: 1.6;
-    margin-bottom: 10px;
-}
-
-.footer-section ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-section li {
-    margin-bottom: 10px;
-}
-
-.footer-section a {
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: all var(--transition-normal);
-    position: relative;
-}
-
-.footer-section a::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 1px;
-    bottom: -2px;
-    left: 0;
-    background-color: var(--primary-color);
-    transform-origin: bottom right;
-    transition: transform 0.3s ease-out;
-}
-
-.footer-section a:hover {
-    color: var(--secondary-color);
-}
-
-.footer-section a:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-}
-
-/* Media queries for responsiveness */
-@media (max-width: 768px) {
-    .footer-sections {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .footer-section {
-        min-width: 100%;
-    }
 }
 
 /* Chart page specific styles */
