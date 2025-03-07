@@ -118,7 +118,7 @@ const ChartPage = () => {
       <div className="chart-section">
         <h2>Numbers</h2>
         <div className="morse-grid">
-          {[...'0123456789'].map(char => (
+          {[...'1234567890'].map(char => (
             <div key={char} className="morse-item" data-char={char}>
               <div className="character">{char}</div>
               <div className="morse">{getMorseCode(char)}</div>
