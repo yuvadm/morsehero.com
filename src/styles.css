@@ -67,7 +67,7 @@ body::before {
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 30px 20px;
     text-align: center;
@@ -268,12 +268,12 @@ h1::after {
     .footer-section {
         min-width: 100%;
     }
-    
+
     .feature-grid {
         grid-template-columns: 1fr;
     }
-    
-    .hero-content > p {
+
+    .hero-content>p {
         max-width: 100%;
     }
 }
@@ -900,9 +900,9 @@ body.game-active #startScreen {
 
 .morse-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 20px;
-    margin: 0 auto;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    margin: 20px 0;
 }
 
 .morse-item {
@@ -1414,6 +1414,7 @@ body.game-active #startScreen {
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
@@ -1725,7 +1726,7 @@ body.game-active #startScreen {
 
 @media (max-width: 768px) {
     .morse-grid {
-        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 10px;
     }
 
@@ -1746,7 +1747,7 @@ body.game-active #startScreen {
 
 @media (max-width: 480px) {
     .morse-grid {
-        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: 8px;
     }
 
