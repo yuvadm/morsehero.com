@@ -83,7 +83,24 @@ const ChartPage = () => {
       <h1 className="title-link">
         <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>Morse Hero</Link>
       </h1>
-      <h2>Morse Code Chart</h2>
+      
+      <div className="page-intro">
+        <h2>Morse Code Reference Chart</h2>
+        <p>Click on any character to hear its Morse code sound. Practice recognizing these patterns to improve your Morse code skills.</p>
+      </div>
+
+      <div className="morse-info-card">
+        <h3>Understanding Morse Code</h3>
+        <p>Morse code uses dots (·) and dashes (−) to represent letters, numbers, and special characters. A dash is three times as long as a dot. The space between parts of the same letter is one dot length, between letters is three dot lengths, and between words is seven dot lengths.</p>
+        <div className="morse-tips">
+          <h4>Memorization Tips</h4>
+          <ul>
+            <li>E (·) and T (−) are the most common letters in English and have the shortest codes</li>
+            <li>Letters with similar sounds often have related patterns (e.g., S and O: S = ··· and O = −−−)</li>
+            <li>Practice regularly with common words to build muscle memory</li>
+          </ul>
+        </div>
+      </div>
 
       <div className="chart-section">
         <h2>Letters</h2>
@@ -120,15 +137,39 @@ const ChartPage = () => {
           ))}
         </div>
       </div>
+      
+      <div className="morse-history">
+        <h3>History of Morse Code</h3>
+        <div className="history-content">
+          <p>Morse code was developed in the 1830s by Samuel Morse and Alfred Vail for use with the telegraph. It revolutionized long-distance communication and remained the standard for telegraph communication for over 160 years.</p>
+          <p>The original Morse code was slightly different from what we use today. The International Morse Code, which is the standard now, was created in 1865 to accommodate languages other than English.</p>
+          <p>Though largely replaced by newer technologies, Morse code remains important in aviation, amateur radio, and emergencies where other communication systems might fail.</p>
+        </div>
+      </div>
 
       <div className="back-link">
-        <Link to="/">Back to Morse Hero</Link>
+        <Link to="/">Back to Morse Hero Game</Link>
       </div>
 
       <footer className="footer">
-        <p>Click on any character to hear its Morse code sound.</p>
-        <p>Created with <a href="https://www.mastercw.com/cw.js/">CW.js</a>. For a complete and professional
-          Morse Code training solution visit <a href="https://www.mastercw.com">Master CW</a>.</p>
+        <div className="footer-content">
+          <div className="footer-section">
+            <h3>About Morse Code</h3>
+            <p>Morse code is a method of transmitting text as a series of on-off tones, lights, or clicks that can be understood by a skilled listener without specialized equipment.</p>
+          </div>
+          <div className="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><Link to="/">Morse Hero Game</Link></li>
+              <li><a href="https://en.wikipedia.org/wiki/Morse_code" target="_blank" rel="noopener noreferrer">Learn More</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <p>Created with <a href="https://www.mastercw.com/cw.js/">CW.js</a>. For a complete and professional
+            Morse Code training solution visit <a href="https://www.mastercw.com">Master CW</a>.</p>
+          <p>&copy; {new Date().getFullYear()} Morse Hero - Practice Morse Code the Fun Way</p>
+        </div>
       </footer>
     </div>
   );

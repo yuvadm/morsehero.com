@@ -18,6 +18,7 @@ const HomePage = () => {
   const [options, setOptions] = useState<string[]>([]);
   const [wpm, setWpm] = useState(20);
   const [showHints, setShowHints] = useState(false);
+  const [showHowToPlay, setShowHowToPlay] = useState(false);
 
   const actxRef = useRef<any>(null);
   const optionButtonsRef = useRef<Array<HTMLButtonElement | null>>([null, null, null, null]);
@@ -234,10 +235,63 @@ const HomePage = () => {
       {
         !gameStarted ? (
           <div id="startScreen">
-            <p>Learn Morse code the fun way!</p>
-            <button id="startButton" className="start-button" onClick={startGame}>Start</button>
-            <div className="chart-link">
-              <Link to="/chart">View Morse Code Chart</Link>
+            <div className="hero-content">
+              <h2>Master Morse Code Through Play</h2>
+              <p>Morse Hero turns learning Morse code into an engaging game. Listen to the signals, identify the characters, and improve your skills with every round.</p>
+
+              <div className="feature-grid">
+                <div className="feature-item">
+                  <div className="feature-icon">🎮</div>
+                  <h3>Interactive Learning</h3>
+                  <p>Learn by doing with our interactive game format</p>
+                </div>
+                <div className="feature-item">
+                  <div className="feature-icon">🔊</div>
+                  <h3>Audio Recognition</h3>
+                  <p>Train your ear to recognize Morse code sounds</p>
+                </div>
+                <div className="feature-item">
+                  <div className="feature-icon">📈</div>
+                  <h3>Track Progress</h3>
+                  <p>See your improvement with each practice session</p>
+                </div>
+                <div className="feature-item">
+                  <div className="feature-icon">⚡</div>
+                  <h3>Adjustable Speed</h3>
+                  <p>Set your own pace as you build your skills</p>
+                </div>
+              </div>
+
+              <div className="cta-container">
+                <button id="startButton" className="start-button" onClick={startGame}>
+                  Start Playing
+                  <span className="button-morse">· − · − ·</span>
+                </button>
+                <button className="how-to-play-button" onClick={() => setShowHowToPlay(!showHowToPlay)}>
+                  {showHowToPlay ? 'Hide Instructions' : 'How to Play'}
+                </button>
+              </div>
+
+              {showHowToPlay && (
+                <div className="how-to-play">
+                  <h3>How to Play Morse Hero</h3>
+                  <ol>
+                    <li>Listen to the Morse code sound played</li>
+                    <li>Select the correct character from the four options</li>
+                    <li>Use keyboard keys that match the displayed characters for faster play</li>
+                    <li>Enable hints if you need help seeing the Morse patterns</li>
+                    <li>Adjust the speed to match your skill level</li>
+                  </ol>
+                  <div className="morse-fact">
+                    <h4>Did You Know?</h4>
+                    <p>Morse code was developed by Samuel Morse and Alfred Vail in the 1830s and revolutionized long-distance communication.</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="chart-link">
+                <Link to="/chart">View Morse Code Chart</Link>
+              </div>
             </div>
           </div>
         ) : (
@@ -255,6 +309,13 @@ const HomePage = () => {
             </div>
 
             <div className="game-container">
+              <div className="game-instructions">
+                <p>Listen to the Morse code and select the correct character</p>
+                <button className="replay-button" onClick={() => playMorseCode(currentChar)}>
+                  <span className="replay-icon">↻</span> Replay Sound
+                </button>
+              </div>
+
               <div className="options">
                 {options.map((option, index) => (
                   <button
@@ -272,19 +333,21 @@ const HomePage = () => {
               </div>
 
               <div className="settings">
-                <label htmlFor="wpmSelect">Speed:</label>
-                <select
-                  id="wpmSelect"
-                  value={wpm}
-                  onChange={(e) => setWpm(parseInt(e.target.value))}
-                >
-                  <option value="10">10 WPM</option>
-                  <option value="15">15 WPM</option>
-                  <option value="20">20 WPM</option>
-                  <option value="25">25 WPM</option>
-                  <option value="30">30 WPM</option>
-                </select>
-                <div className="hint-setting">
+                <div className="setting-group">
+                  <label htmlFor="wpmSelect">Speed:</label>
+                  <select
+                    id="wpmSelect"
+                    value={wpm}
+                    onChange={(e) => setWpm(parseInt(e.target.value))}
+                  >
+                    <option value="10">10 WPM</option>
+                    <option value="15">15 WPM</option>
+                    <option value="20">20 WPM</option>
+                    <option value="25">25 WPM</option>
+                    <option value="30">30 WPM</option>
+                  </select>
+                </div>
+                <div className="setting-group hint-setting">
                   <input
                     type="checkbox"
                     id="hintMode"
@@ -294,6 +357,11 @@ const HomePage = () => {
                   />
                   <label htmlFor="hintMode">Show Hints</label>
                 </div>
+                <button className="reset-button" onClick={resetGame}>New Game</button>
+              </div>
+
+              <div className="keyboard-tip">
+                <p>Pro Tip: Use your keyboard to select options faster!</p>
               </div>
             </div>
           </div>
@@ -301,9 +369,24 @@ const HomePage = () => {
       }
 
       <footer className="footer">
-        <p>Need help? View the <Link to="/chart">Morse Code Chart</Link>. </p>
-        <p>Created with <a href="https://www.mastercw.com/cw.js/">CW.js</a>. For a complete and professional
-          Morse Code training solution visit <a href="https://www.mastercw.com">Master CW</a>.</p>
+        <div className="footer-content">
+          <div className="footer-section">
+            <h3>About Morse Code</h3>
+            <p>Morse code is a method of transmitting text as a series of on-off tones, lights, or clicks that can be understood by a skilled listener without specialized equipment.</p>
+          </div>
+          <div className="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><Link to="/chart">Morse Code Chart</Link></li>
+              <li><a href="https://en.wikipedia.org/wiki/Morse_code" target="_blank" rel="noopener noreferrer">Learn More</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <p>Created with <a href="https://www.mastercw.com/cw.js/">CW.js</a>. For a complete and professional
+            Morse Code training solution visit <a href="https://www.mastercw.com">Master CW</a>.</p>
+          <p>&copy; {new Date().getFullYear()} Morse Hero - Practice Morse Code the Fun Way</p>
+        </div>
       </footer>
     </div >
   );
