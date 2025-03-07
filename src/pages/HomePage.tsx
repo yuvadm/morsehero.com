@@ -22,7 +22,6 @@ const HomePage = () => {
   const [options, setOptions] = useState<string[]>([]);
   const [wpm, setWpm] = useState(20);
   const [showHints, setShowHints] = useState(false);
-  const [showHowToPlay, setShowHowToPlay] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [_correctAnswers, setCorrectAnswers] = useState<string[]>([]);
   const [_incorrectAnswers, setIncorrectAnswers] = useState<string[]>([]);
@@ -254,8 +253,6 @@ const HomePage = () => {
                   <Link to="/chart">View Morse Code Chart</Link>
                 </div>
               </div>
-
-
 
               <div className="feature-grid">
                 <div className="feature-item">
