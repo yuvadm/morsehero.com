@@ -248,35 +248,14 @@ const HomePage = () => {
 
               <div className="cta-container">
                 <button id="startButton" className="start-button" onClick={startGame}>
-                  Start Playing
-                  <span className="button-morse">· − · − ·</span>
+                  Start Game
                 </button>
-                <button className="how-to-play-button" onClick={() => setShowHowToPlay(!showHowToPlay)}>
-                  {showHowToPlay ? 'Hide Instructions' : 'How to Play'}
-                </button>
-              </div>
-
-
-              {showHowToPlay && (
-                <div className="how-to-play">
-                  <h3>How to Play Morse Hero</h3>
-                  <ol>
-                    <li>Listen to the Morse code sound played</li>
-                    <li>Select the correct character from the four options</li>
-                    <li>Use keyboard keys that match the displayed characters for faster play</li>
-                    <li>Enable hints if you need help seeing the Morse patterns</li>
-                    <li>Adjust the speed to match your skill level</li>
-                  </ol>
-                  <div className="morse-fact">
-                    <h4>Did You Know?</h4>
-                    <p>Morse code was developed by Samuel Morse and Alfred Vail in the 1830s and revolutionized long-distance communication.</p>
-                  </div>
+                <div className="chart-link">
+                  <Link to="/chart">View Morse Code Chart</Link>
                 </div>
-              )}
-
-              <div className="chart-link">
-                <Link to="/chart">View Morse Code Chart</Link>
               </div>
+
+
 
               <div className="feature-grid">
                 <div className="feature-item">
