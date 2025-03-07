@@ -19,7 +19,7 @@ const Footer: React.FC<FooterProps> = () => {
             <ul>
               <li><Link to="/">Game</Link></li>
               <li><Link to="/chart">Reference Chart</Link></li>
-              <li><Link to="https://www.mastercw.com">Learn Morse Code</Link></li>
+              <li><a href="https://www.mastercw.com">Learn Morse Code</a></li>
             </ul>
           </div>
           <div className="footer-section">
