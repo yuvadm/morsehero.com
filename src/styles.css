@@ -1127,6 +1127,7 @@ body.game-active #startScreen {
     border: 1px solid var(--card-border);
     backdrop-filter: blur(10px);
     animation: fadeIn 0.5s ease-out;
+    text-align: left;
 }
 
 .chart-section h2 {
@@ -1632,6 +1633,44 @@ body.game-active #startScreen {
 .back-link a:active {
     transform: translateY(1px);
     box-shadow: var(--shadow-sm);
+}
+
+/* Embed styles */
+.embed-container {
+  max-width: 100%;
+  padding: 10px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.embed-title {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Responsive adjustments for embedded views */
+@media (max-width: 480px) {
+  .embed-container .morse-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .embed-container .chart-section {
+    margin-bottom: 1rem;
+  }
+  
+  .embed-container .chart-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .embed-container .game-container {
+    padding: 10px;
+  }
+  
+  .embed-container .options {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
