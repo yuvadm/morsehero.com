@@ -63,7 +63,7 @@ const HomePage = () => {
             </div>
           </div>
         ) : (
-          <MorseGame onReset={resetGame} />
+          <MorseGame />
         )
       }
 

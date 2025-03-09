@@ -11,11 +11,10 @@ declare global {
 }
 
 interface MorseGameProps {
-  onReset?: () => void;
   embed?: boolean;
 }
 
-const MorseGame: React.FC<MorseGameProps> = ({ onReset, embed = false }) => {
+const MorseGame: React.FC<MorseGameProps> = ({ embed = false }) => {
   // Game variables
   const [score, setScore] = useState(0);
   const [totalPlayed, setTotalPlayed] = useState(0);
