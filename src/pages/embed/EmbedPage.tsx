@@ -28,7 +28,7 @@ const EmbedPage = () => {
 
   return (
     <div className="embed-container">
-      <MorseGame />
+      <MorseGame embed={true} />
     </div>
   );
 };

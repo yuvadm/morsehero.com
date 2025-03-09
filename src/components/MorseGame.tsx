@@ -12,9 +12,10 @@ declare global {
 
 interface MorseGameProps {
   onReset?: () => void;
+  embed?: boolean;
 }
 
-const MorseGame: React.FC<MorseGameProps> = () => {
+const MorseGame: React.FC<MorseGameProps> = ({ onReset, embed = false }) => {
   // Game variables
   const [score, setScore] = useState(0);
   const [totalPlayed, setTotalPlayed] = useState(0);
@@ -289,9 +290,11 @@ const MorseGame: React.FC<MorseGameProps> = () => {
           </div>
         </div>
 
-        <div className="keyboard-tip">
-          <p>Pro Tip: Use your keyboard to select options faster!</p>
-        </div>
+        {!embed && (
+          <div className="keyboard-tip">
+            <p>Pro Tip: Use your keyboard to select options faster!</p>
+          </div>
+        )}
       </div>
     </div>
   );
