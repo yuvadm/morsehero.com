@@ -24,6 +24,7 @@ const MorseGame: React.FC<MorseGameProps> = ({ onReset, embed = false }) => {
   const [wpm, setWpm] = useState(20);
   const [showHints, setShowHints] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [gameStarted, setGameStarted] = useState(!embed); // Auto-start if not in embed mode
 
   const actxRef = useRef<any>(null);
   const optionButtonsRef = useRef<Array<HTMLButtonElement | null>>([null, null, null, null]);
@@ -43,10 +44,12 @@ const MorseGame: React.FC<MorseGameProps> = ({ onReset, embed = false }) => {
         actxRef.current = cw.initAudioContext({ tone: 600 });
         isInitializedRef.current = true;
 
-        // Start the first round after audio context is initialized
-        setTimeout(() => {
-          newRound();
-        }, 100);
+        // Start the first round after audio context is initialized if not in embed mode or if game already started
+        if (gameStarted) {
+          setTimeout(() => {
+            newRound();
+          }, 100);
+        }
       } catch (error) {
         console.error('Failed to initialize audio context:', error);
       }
@@ -56,14 +59,17 @@ const MorseGame: React.FC<MorseGameProps> = ({ onReset, embed = false }) => {
     return () => {
       if (actxRef.current) {
         try {
-          actxRef.current.close();
+          // Check if close method exists before calling it
+          if (typeof actxRef.current.close === 'function') {
+            actxRef.current.close();
+          }
           actxRef.current = null;
         } catch (error) {
-          console.error('Error closing audio context:', error);
+          console.error('Error cleaning up audio context:', error);
         }
       }
     };
-  }, []);
+  }, [gameStarted]);
 
   // Generate a new round
   const newRound = () => {
@@ -222,80 +228,101 @@ const MorseGame: React.FC<MorseGameProps> = ({ onReset, embed = false }) => {
     }
   };
 
+  // Start the game (for embed mode)
+  const startGame = () => {
+    setGameStarted(true);
+    setTimeout(() => {
+      newRound();
+    }, 100);
+  };
+
   return (
     <div id="gameArea" style={{ display: 'block' }}>
-      <div className="score-container">
-        <div className="score-widget">
-          <div className="score-info">
-            <div className="score-label">Score:</div>
-            <div className="score-value">
-              <span id="score">{score}</span> / <span id="total">{totalPlayed}</span>
+      {embed && !gameStarted ? (
+        <div className="start-game-container">
+          <button
+            className="start-game-button"
+            onClick={startGame}
+          >
+            Start Game
+          </button>
+        </div>
+      ) : (
+        <>
+          <div className="score-container">
+            <div className="score-widget">
+              <div className="score-info">
+                <div className="score-label">Score:</div>
+                <div className="score-value">
+                  <span id="score">{score}</span> / <span id="total">{totalPlayed}</span>
+                </div>
+              </div>
+              <div className="score-tracker" id="scoreTracker"></div>
             </div>
           </div>
-          <div className="score-tracker" id="scoreTracker"></div>
-        </div>
-      </div>
 
-      <div className="game-container">
-        <div className="game-instructions">
-          <p>Listen to the Morse code and select the correct character</p>
-        </div>
+          <div className="game-container">
+            <div className="game-instructions">
+              <p>Listen to the Morse code and select the correct character</p>
+            </div>
 
-        <div className="options">
-          {options.map((option, index) => (
-            <button
-              key={index}
-              className={`option-button ${selectedOption === option
-                ? option === currentChar
-                  ? "correct"
-                  : "incorrect"
-                : ""
-                }`}
-              ref={el => {
-                optionButtonsRef.current[index] = el;
-              }}
-              onClick={() => handleOptionClick(option, index)}
-              disabled={selectedOption !== null}
-            >
-              <span className="char-display">{option}</span>
-              {showHints && <span className="morse-hint">{getMorseCode(option)}</span>}
-            </button>
-          ))}
-        </div>
+            <div className="options">
+              {options.map((option, index) => (
+                <button
+                  key={index}
+                  className={`option-button ${selectedOption === option
+                    ? option === currentChar
+                      ? "correct"
+                      : "incorrect"
+                    : ""
+                    }`}
+                  ref={el => {
+                    optionButtonsRef.current[index] = el;
+                  }}
+                  onClick={() => handleOptionClick(option, index)}
+                  disabled={selectedOption !== null}
+                >
+                  <span className="char-display">{option}</span>
+                  {showHints && <span className="morse-hint">{getMorseCode(option)}</span>}
+                </button>
+              ))}
+            </div>
 
-        <div className="settings">
-          <div className="setting-group">
-            <label htmlFor="wpmSelect">Speed:</label>
-            <select
-              id="wpmSelect"
-              value={wpm}
-              onChange={(e) => setWpm(parseInt(e.target.value))}
-            >
-              <option value="10">10 WPM</option>
-              <option value="15">15 WPM</option>
-              <option value="20">20 WPM</option>
-              <option value="25">25 WPM</option>
-              <option value="30">30 WPM</option>
-            </select>
+            <div className="settings">
+              <div className="setting-group">
+                <label htmlFor="wpmSelect">Speed:</label>
+                <select
+                  id="wpmSelect"
+                  value={wpm}
+                  onChange={(e) => setWpm(parseInt(e.target.value))}
+                >
+                  <option value="10">10 WPM</option>
+                  <option value="15">15 WPM</option>
+                  <option value="20">20 WPM</option>
+                  <option value="25">25 WPM</option>
+                  <option value="30">30 WPM</option>
+                </select>
+              </div>
+              <div className="setting-group hint-setting">
+                <input
+                  type="checkbox"
+                  id="hintMode"
+                  name="hintMode"
+                  checked={showHints}
+                  onChange={(e) => setShowHints(e.target.checked)}
+                />
+                <label htmlFor="hintMode">Show Hints</label>
+              </div>
+            </div>
+
+            {!embed && (
+              <div className="keyboard-tip">
+                <p>Pro Tip: Use your keyboard to select options faster!</p>
+              </div>
+            )}
           </div>
-          <div className="setting-group hint-setting">
-            <input
-              type="checkbox"
-              id="hintMode"
-              name="hintMode"
-              checked={showHints}
-              onChange={(e) => setShowHints(e.target.checked)}
-            />
-            <label htmlFor="hintMode">Show Hints</label>
-          </div>
-        </div>
-
-        {!embed && (
-          <div className="keyboard-tip">
-            <p>Pro Tip: Use your keyboard to select options faster!</p>
-          </div>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 };
