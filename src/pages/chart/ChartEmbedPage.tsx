@@ -18,19 +18,16 @@ const ChartEmbedPage = () => {
     viewportMeta.name = 'viewport';
     viewportMeta.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no';
     document.head.appendChild(viewportMeta);
-    
-    // Set canonical URL
-    const canonicalLink = document.createElement('link');
-    canonicalLink.rel = 'canonical';
-    canonicalLink.href = 'https://morsehero.com/charts/embed';
-    document.head.appendChild(canonicalLink);
-    
+
     // Set page title
     document.title = 'Morse Code Chart | Embed';
-    
+
     return () => {
-      document.head.removeChild(viewportMeta);
-      document.head.removeChild(canonicalLink);
+      // Remove viewport meta tag when component unmounts
+      const metaTag = document.querySelector('meta[name="viewport"]');
+      if (metaTag && metaTag.parentNode) {
+        metaTag.parentNode.removeChild(metaTag);
+      }
     };
   }, []);
 

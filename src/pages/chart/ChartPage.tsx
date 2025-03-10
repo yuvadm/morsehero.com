@@ -43,10 +43,18 @@ const ChartPage = () => {
         clickedItem.classList.add('playing');
       }
 
-      cw.play(character, {
-        wpm: 20,
-        actx: actxRef.current
-      });
+      try {
+        // Get Morse code for the character
+        const morseCode = getMorseCode(character);
+        
+        // Play the Morse code
+        window.cw.play(morseCode, {
+          wpm: 20,
+          actx: actxRef.current
+        });
+      } catch (error) {
+        console.error('Error playing Morse code:', error);
+      }
 
       // Remove the 'playing' class after the audio finishes
       setTimeout(() => {
